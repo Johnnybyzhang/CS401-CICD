@@ -8,7 +8,7 @@ import os
 dataset_path = os.path.join('data', 'dataset.csv')
 
 # Load only 2000 lines for quicker training
-df = pd.read_csv(dataset_path, nrows=2000)
+df = pd.read_csv(dataset_path, nrows=10000)
 
 # Print the size of the dataset
 print(f"Dataset size: {df.shape}")
