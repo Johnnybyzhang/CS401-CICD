@@ -20,7 +20,7 @@ te_ary = te.fit(basket['track_name']).transform(basket['track_name'])
 df_onehot = pd.DataFrame(te_ary, columns=te.columns_)
 
 # Find frequent itemsets with higher support threshold to reduce item combinations
-frequent_itemsets = apriori(df_onehot, min_support=0.04, use_colnames=True, max_len=3)
+frequent_itemsets = apriori(df_onehot, min_support=0.03, use_colnames=True, max_len=10)
 
 # Use more stringent thresholds and filter earlier
 rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.7)
