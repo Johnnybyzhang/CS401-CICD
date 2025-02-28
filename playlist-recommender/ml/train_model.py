@@ -19,7 +19,7 @@ if not os.path.exists(dataset_path):
     os.makedirs('data', exist_ok=True)
     
     # Download the file
-    response = requests.get(dataset_url)
+    response = requests.get(dataset_url, verify=False)
     with open(dataset_path, 'wb') as f:
         f.write(response.content)
     
