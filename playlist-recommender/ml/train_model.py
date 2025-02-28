@@ -19,10 +19,13 @@ te = TransactionEncoder()
 te_ary = te.fit(basket['track_name']).transform(basket['track_name'])
 df_onehot = pd.DataFrame(te_ary, columns=te.columns_)
 
-# Find frequent itemsets – you can adjust the support threshold as needed
-frequent_itemsets = apriori(df_onehot, min_support=0.01, use_colnames=True)
-# Generate association rules based on a confidence threshold (e.g., 0.5)
-rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.5)
+# Find frequent itemsets with higher support threshold to reduce item combinations
+frequent_itemsets = apriori(df_onehot, min_support=0.05, use_colnames=True, max_len=3)
+
+# Use more stringent thresholds and filter earlier
+rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.7)
+# Limit number of rules if still too many
+rules = rules.nlargest(1000, 'confidence')
 
 # Save the model to the data directory for persistence
 model_path = os.path.join('data', 'model.pickle')
