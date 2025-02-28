@@ -2,9 +2,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: playlist-recommender
-  namespace: argocd
+  namespace: boyan
 spec:
-  project: default
+  project: boyan-project
   source:
     repoURL: 'https://github.com/Johnnybyzhang/CS401-CICD.git'
     targetRevision: HEAD
