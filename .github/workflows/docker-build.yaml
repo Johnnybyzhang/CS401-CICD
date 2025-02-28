@@ -1,0 +1,40 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to Quay.io
+      uses: docker/login-action@v2
+      with:
+        registry: quay.io
+        username: ${{ secrets.QUAY_USERNAME }}
+        password: ${{ secrets.QUAY_PASSWORD }}
+
+    - name: Build and push ML container
+      uses: docker/build-push-action@v4
+      with:
+        context: ./playlist-recommender/ml
+        file: Dockerfile.ml
+        push: true
+        tags: quay.io/johnnybyzhang/playlist-recommender-ml:latest
+
+    - name: Build and push API container
+      uses: docker/build-push-action@v4
+      with:
+        context: ./playlist-recommender/api
+        file: Dockerfile.api
+        push: true
+        tags: quay.io/johnnybyzhang/playlist-recommender-api:latest
