@@ -2,9 +2,13 @@ import pandas as pd
 from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import apriori, association_rules
 import pickle
+import os
+
+# Look for dataset in the data directory
+dataset_path = os.path.join('data', 'dataset.csv')
 
 # Load only 5000 lines for quicker training
-df = pd.read_csv('dataset.csv', nrows=5000)
+df = pd.read_csv(dataset_path, nrows=5000)
 
 # Group the songs by playlist id (assuming 'pid' identifies each playlist)
 basket = df.groupby('pid')['track_name'].apply(list).reset_index()
@@ -18,6 +22,8 @@ frequent_itemsets = apriori(df_onehot, min_support=0.01, use_colnames=True)
 # Generate association rules based on a confidence threshold (e.g., 0.5)
 rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.5)
 
-with open('model.pickle', 'wb') as f:
+# Save the model to the data directory for persistence
+model_path = os.path.join('data', 'model.pickle')
+with open(model_path, 'wb') as f:
     pickle.dump(rules, f)
-print("Model training complete, rules saved to model.pickle.")
+print(f"Model training complete, rules saved to {model_path}")
