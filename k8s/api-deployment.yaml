@@ -18,17 +18,21 @@ spec:
       # 添加初始化容器，等待 ML 作业完成
       initContainers:
       - name: wait-for-ml-job
-        image: bitnami/kubectl:latest
+        image: busybox
         command:
         - /bin/sh
         - -c
         - |
           echo "Waiting for ML job to complete..."
-          until kubectl -n boyan get job playlist-recommender-ml -o jsonpath='{.status.succeeded}' | grep -q 1; do
+          until [ -f /app/data/job-completed.txt ]; do
             echo "ML job is still running, waiting..."
             sleep 10
           done
           echo "ML job completed successfully!"
+          rm -f /app/data/job-completed.txt
+        volumeMounts:
+        - name: dataset-volume
+          mountPath: /app/data
       containers:
       - name: api
         image: quay.io/johnnybyzhang/playlist-recommender-api:latest

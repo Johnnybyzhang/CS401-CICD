@@ -14,6 +14,13 @@ spec:
       containers:
       - name: ml
         image: quay.io/johnnybyzhang/playlist-recommender-ml:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          python train_model.py
+          # 创建完成标记文件
+          touch /app/data/job-completed.txt
         volumeMounts:
         - name: dataset-volume
           mountPath: /app/data
