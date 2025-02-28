@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: playlist-recommender-api
+  namespace: boyan
+  labels:
+    app: playlist-recommender-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: playlist-recommender-api
+  template:
+    metadata:
+      labels:
+        app: playlist-recommender-api
+    spec:
+      containers:
+      - name: api
+        image: quay.io/johnnybyzhang/playlist-recommender-api:latest
+        env:
+        - name: MODEL_VERSION
+          value: "0.2"
+        volumeMounts:
+        - name: dataset-volume
+          mountPath: /app/model
+        ports:
+        - containerPort: 5000
+      volumes:
+      - name: dataset-volume
+        persistentVolumeClaim:
+          claimName: playlist-recommender-pvc

@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: playlist-recommender-ml
+  namespace: boyan
+spec:
+  template:
+    spec:
+      containers:
+      - name: ml
+        image: quay.io/johnnybyzhang/playlist-recommender-ml:latest
+        volumeMounts:
+        - name: dataset-volume
+          mountPath: /app/data
+      restartPolicy: Never
+      volumes:
+      - name: dataset-volume
+        persistentVolumeClaim:
+          claimName: playlist-recommender-pvc
+  backoffLimit: 3
