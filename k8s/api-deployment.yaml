@@ -15,6 +15,20 @@ spec:
       labels:
         app: playlist-recommender-api
     spec:
+      # 添加初始化容器，等待 ML 作业完成
+      initContainers:
+      - name: wait-for-ml-job
+        image: bitnami/kubectl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "Waiting for ML job to complete..."
+          until kubectl -n boyan get job playlist-recommender-ml -o jsonpath='{.status.succeeded}' | grep -q 1; do
+            echo "ML job is still running, waiting..."
+            sleep 10
+          done
+          echo "ML job completed successfully!"
       containers:
       - name: api
         image: quay.io/johnnybyzhang/playlist-recommender-api:latest
@@ -30,3 +44,5 @@ spec:
       - name: dataset-volume
         persistentVolumeClaim:
           claimName: playlist-recommender-pvc
+      # 添加 serviceAccount 以便 initContainer 可以访问 Kubernetes API
+      serviceAccountName: job-reader
