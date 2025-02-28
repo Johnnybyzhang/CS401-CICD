@@ -16,7 +16,7 @@ spec:
         image: quay.io/johnnybyzhang/playlist-recommender-ml:latest
         volumeMounts:
         - name: dataset-volume
-          mountPath: /app/dataset
+          mountPath: /app/data
       restartPolicy: Never
       volumes:
       - name: dataset-volume
