@@ -25,7 +25,7 @@ frequent_itemsets = apriori(df_onehot, min_support=0.03, use_colnames=True, max_
 # Use more stringent thresholds and filter earlier
 rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.7)
 # Limit number of rules if still too many
-rules = rules.nlargest(1000, 'confidence')
+rules = rules.nlargest(1000000, 'confidence')
 
 # Save the model to the data directory for persistence
 model_path = os.path.join('data', 'model.pickle')
