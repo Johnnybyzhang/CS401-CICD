@@ -8,7 +8,7 @@ import os
 dataset_path = os.path.join('data', 'dataset.csv')
 
 # Load only 2000 lines for quicker training
-df = pd.read_csv(dataset_path, nrows=10000)
+df = pd.read_csv(dataset_path)
 
 # Print the size of the dataset
 print(f"Dataset size: {df.shape}")
@@ -20,7 +20,7 @@ te_ary = te.fit(basket['track_name']).transform(basket['track_name'])
 df_onehot = pd.DataFrame(te_ary, columns=te.columns_)
 
 # Find frequent itemsets with higher support threshold to reduce item combinations
-frequent_itemsets = apriori(df_onehot, min_support=0.05, use_colnames=True, max_len=3)
+frequent_itemsets = apriori(df_onehot, min_support=0.04, use_colnames=True, max_len=3)
 
 # Use more stringent thresholds and filter earlier
 rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.7)
