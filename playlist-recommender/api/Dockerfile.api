@@ -1,0 +1,15 @@
+FROM python:3.12.9-slim
+WORKDIR /app
+# Install uv
+RUN pip install uv
+# Copy uv project files and install dependencies
+COPY pyproject.toml uv.lock ./
+RUN uv sync
+# Copy your Flask API application code
+COPY main.py .
+# Set environment variables (adjust MODEL_PATH as needed)
+ENV FLASK_APP=main
+ENV MODEL_PATH=/model/model.pickle
+ENV MODEL_VERSION=0.1
+# Run the Flask application via uv
+CMD ["uv", "run", "flask", "run", "--host=0.0.0.0", "--port=5000"]
