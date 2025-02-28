@@ -7,9 +7,20 @@ COPY pyproject.toml uv.lock ./
 RUN uv sync
 # Copy your Flask API application code
 COPY main.py .
-# Set environment variables (adjust MODEL_PATH as needed)
+
+# Create directory for model mounting
+RUN mkdir -p /app/model
+
+# Set environment variables
 ENV FLASK_APP=main
-ENV MODEL_PATH=/model/model.pickle
+ENV MODEL_PATH=/app/model/model.pickle
 ENV MODEL_VERSION=0.1
+
+# Volume for model access
+VOLUME /app/model
+
+# Expose the API port
+EXPOSE 5000
+
 # Run the Flask application via uv
 CMD ["uv", "run", "flask", "run", "--host=0.0.0.0", "--port=5000"]
