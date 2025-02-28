@@ -20,12 +20,12 @@ te_ary = te.fit(basket['track_name']).transform(basket['track_name'])
 df_onehot = pd.DataFrame(te_ary, columns=te.columns_)
 
 # Find frequent itemsets with higher support threshold to reduce item combinations
-frequent_itemsets = apriori(df_onehot, min_support=0.025, use_colnames=True, max_len=8)
+frequent_itemsets = apriori(df_onehot, min_support=0.029, use_colnames=True, max_len=8)
 
 # Use more stringent thresholds and filter earlier
 rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.5)
 # Limit number of rules if still too many
-rules = rules.nlargest(1000000, 'confidence')
+rules = rules.nlargest(5000000, 'confidence')
 
 # Save the model to the data directory for persistence
 model_path = os.path.join('data', 'model.pickle')
