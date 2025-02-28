@@ -7,26 +7,26 @@ metadata:
     app: playlist-recommender
     component: ml
     part-of: playlist-recommender
-     tier: backend
+    tier: backend
+spec:
+  template:
     spec:
-      template:
-        spec:
-          containers:
-          - name: ml
-            image: quay.io/johnnybyzhang/playlist-recommender-ml:latest
-            volumeMounts:
-            - name: dataset-volume
-              mountPath: /app/dataset
-            - name: spotify-dataset
-              mountPath: /app/dataset/dataset.csv
-              subPath: dataset.csv
-          restartPolicy: Never
-          volumes:
-          - name: dataset-volume
-            persistentVolumeClaim:
-              claimName: playlist-recommender-pvc
-          - name: spotify-dataset
-            hostPath:
-              path: /home/datasets/spotify/2023_spotify_ds1.csv
-              type: File
-      backoffLimit: 3
+      containers:
+      - name: ml
+        image: quay.io/johnnybyzhang/playlist-recommender-ml:latest
+        volumeMounts:
+        - name: dataset-volume
+          mountPath: /app/dataset
+        - name: spotify-dataset
+          mountPath: /app/dataset/dataset.csv
+          subPath: dataset.csv
+      restartPolicy: Never
+      volumes:
+      - name: dataset-volume
+        persistentVolumeClaim:
+          claimName: playlist-recommender-pvc
+      - name: spotify-dataset
+        hostPath:
+          path: /home/datasets/spotify/2023_spotify_ds1.csv
+          type: File
+  backoffLimit: 3
