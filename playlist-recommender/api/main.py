@@ -44,6 +44,28 @@ def recommend():
         "model_date": MODEL_DATE
     })
 
+@app.route('/api/debug', methods=['GET'])
+def debug_model():
+    # Get sample of the model
+    sample_rules = []
+    try:
+        for i, (_, rule) in enumerate(app.model.iterrows()):
+            if i >= 5:  # Just sample 5 rules
+                break
+            sample_rules.append({
+                "antecedents": list(rule['antecedents']),
+                "consequents": list(rule['consequents']),
+                "confidence": float(rule['confidence'])
+            })
+    except Exception as e:
+        return jsonify({"error": str(e)})
+        
+    return jsonify({
+        "rules_count": len(app.model),
+        "sample_rules": sample_rules,
+        "version": MODEL_VERSION
+    })
+
 if __name__ == '__main__':
     # Ensure Flask listens on all interfaces
     app.run(host='0.0.0.0', port=5000)
