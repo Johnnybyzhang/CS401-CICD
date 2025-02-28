@@ -3,9 +3,27 @@ from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import apriori, association_rules
 import pickle
 import os
+import requests
 
 # Look for dataset in the data directory
 dataset_path = os.path.join('data', 'dataset.csv')
+
+# Check if the dataset exists, if not download it
+if not os.path.exists(dataset_path):
+    print(f"Dataset not found at {dataset_path}, downloading from remote source...")
+    
+    # URL for the dataset
+    dataset_url = "https://homepages.dcc.ufmg.br/~cunha/hosted/cloudcomp-2023s2-datasets/2023_spotify_ds1.csv"
+    
+    # Create data directory if it doesn't exist
+    os.makedirs('data', exist_ok=True)
+    
+    # Download the file
+    response = requests.get(dataset_url)
+    with open(dataset_path, 'wb') as f:
+        f.write(response.content)
+    
+    print(f"Dataset downloaded and saved to {dataset_path}")
 
 # Load only 2000 lines for quicker training
 df = pd.read_csv(dataset_path)
