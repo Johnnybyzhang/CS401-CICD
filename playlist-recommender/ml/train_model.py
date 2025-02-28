@@ -7,8 +7,8 @@ import os
 # Look for dataset in the data directory
 dataset_path = os.path.join('data', 'dataset.csv')
 
-# Load only 5000 lines for quicker training
-df = pd.read_csv(dataset_path, nrows=5000)
+# Load only 1000 lines for quicker training
+df = pd.read_csv(dataset_path, nrows=1000)
 
 # Group the songs by playlist id (assuming 'pid' identifies each playlist)
 basket = df.groupby('pid')['track_name'].apply(list).reset_index()
