@@ -3,6 +3,11 @@ kind: Job
 metadata:
   name: playlist-recommender-ml
   namespace: boyan
+  labels:
+    app: playlist-recommender
+    component: ml
+    part-of: playlist-recommender
+    tier: backend
 spec:
   template:
     spec:
