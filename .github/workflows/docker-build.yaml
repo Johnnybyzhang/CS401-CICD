@@ -27,7 +27,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         context: ./playlist-recommender/ml
-        file: Dockerfile.ml
+        file: ./playlist-recommender/ml/Dockerfile.ml
         push: true
         tags: quay.io/johnnybyzhang/playlist-recommender-ml:latest
 
@@ -35,6 +35,6 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         context: ./playlist-recommender/api
-        file: Dockerfile.api
+        file: ./playlist-recommender/api/Dockerfile.api
         push: true
         tags: quay.io/johnnybyzhang/playlist-recommender-api:latest
