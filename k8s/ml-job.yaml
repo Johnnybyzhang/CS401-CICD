@@ -17,16 +17,9 @@ spec:
         volumeMounts:
         - name: dataset-volume
           mountPath: /app/dataset
-        - name: spotify-dataset
-          mountPath: /app/dataset/dataset.csv
-          subPath: dataset.csv
       restartPolicy: Never
       volumes:
       - name: dataset-volume
         persistentVolumeClaim:
           claimName: playlist-recommender-pvc
-      - name: spotify-dataset
-        hostPath:
-          path: /home/datasets/spotify/2023_spotify_ds1.csv
-          type: File
   backoffLimit: 3
