@@ -22,7 +22,7 @@ spec:
         - /bin/sh
         - -c
         - |
-          python train_model.py
+          uv run python train_model.py
           # 创建完成标记文件
           touch /app/data/job-completed.txt
         volumeMounts:
