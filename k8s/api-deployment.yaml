@@ -4,7 +4,7 @@ metadata:
   name: playlist-recommender-api
   namespace: boyan
   labels:
-    app: playlist-recommender-api
+    app: playlist-recommender-api:0.2
 spec:
   replicas: 1
   selector:
