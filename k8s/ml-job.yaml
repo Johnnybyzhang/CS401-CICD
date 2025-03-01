@@ -8,7 +8,11 @@ metadata:
     component: ml
     part-of: playlist-recommender
     tier: backend
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
 spec:
+  ttlSecondsAfterFinished: 100
   template:
     spec:
       containers:
